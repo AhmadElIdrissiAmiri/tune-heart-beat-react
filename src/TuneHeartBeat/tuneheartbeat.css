@@ -1,0 +1,11 @@
+.gradient-background {
+    background: linear-gradient(to top, gray
+    , #000000);
+   
+  }
+.gradient-background  h1{
+   color: green;
+   margin-top: 30px;
+   text-align: center;
+   font-weight:900;  
+  }

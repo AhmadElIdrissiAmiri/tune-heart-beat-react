@@ -1,0 +1,56 @@
+/* navigation.css */
+
+.list-group2 {
+  background: #040404;
+  max-width: 200px;
+  padding: 0;
+  height: 100vh;
+  border: none;
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.list-group2 a {
+  text-decoration: none;
+  color: #b3b3b3;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.list-group2 a.active,
+.list-group2 .link-button.active {
+  background-color: #1db954;
+  color: white;
+}
+
+.iconstyling {
+  font-size: 22px;
+  margin-right: 10px;
+}
+
+.video-icon-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.link-button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  /* Optional: Add hover styles if desired */
+  background-color: darkgrey;
+}
