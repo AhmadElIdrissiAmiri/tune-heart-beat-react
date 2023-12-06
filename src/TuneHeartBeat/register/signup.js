@@ -11,7 +11,7 @@ function Signup() {
     username: "",
     email: "",
     password: "",
-    userType: "user",
+    role: "user",
     dateOfBirth: ""
   });
   const navigate = useNavigate();
@@ -76,22 +76,22 @@ function Signup() {
       />
       <select
         className="input-field"
-        value={credentials.userType}
+        value={credentials.role}
         onChange={(e) =>
-          setCredentials({ ...credentials, userType: e.target.value })
+          setCredentials({ ...credentials, role: e.target.value })
         }
       >
-        <option value="user">User</option>
-        <option value="artist">Artist</option>
-        <option value="admin">Admin</option>
+        <option value="USER">User</option>
+        <option value="ARTIST">Artist</option>
+        <option value="ADMIN">Admin</option>
       </select>
       <input
         className="input-field"
         type="date"
         placeholder="Date of Birth"
-        value={credentials.dateOfBirth}
+        value={credentials.dob}
         onChange={(e) =>
-          setCredentials({ ...credentials, dateOfBirth: e.target.value })
+          setCredentials({ ...credentials, dob: e.target.value })
         }
       />
       <button className="signup-button" onClick={signup}>

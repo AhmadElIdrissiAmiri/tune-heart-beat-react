@@ -1,15 +1,31 @@
 import * as client from "../users/client";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../users/reducer";
+
 import "./signin.css";
 
 function Signin() {
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const signin = async () => {
-    await client.signin(credentials);
-    navigate("/TuneHeartBeat/home/home");
+    try {
+      // Perform the asynchronous sign-in operation
+      const signinResult = await client.signin(credentials);
+
+      // Assuming signinResult contains user information after signing in
+      // Update the Redux state with the user information
+      dispatch(setCurrentUser(signinResult));
+
+      // Navigate to the desired location
+      navigate("/TuneHeartBeat/home/");
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      // Handle any errors that occurred during sign-in
+    }
   };
 
   return (

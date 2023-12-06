@@ -123,9 +123,7 @@ const deleteUser = async (user) => {
             {users.map((user) => (
               <tr key={user._id}>
 
-{/* <Link to={`/users/account/${user._id}`}>
-          {user.username}
-        </Link> */}
+
 
                 <td>{user.username}</td>
                 <td>{user.password}</td>

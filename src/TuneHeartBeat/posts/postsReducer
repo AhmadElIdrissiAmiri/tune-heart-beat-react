@@ -1,120 +1,120 @@
-import { createSlice } from "@reduxjs/toolkit";
+// import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  artists: [],
-  artist: { name: "New Artist", bio: "New Bio" },
-  posts: [],
-  post: { title: "New Post", content: "New Content" },
-  comments: [],
-};
+// const initialState = {
+//   artists: [],
+//   artist: { name: "New Artist", bio: "New Bio" },
+//   posts: [],
+//   post: { title: "New Post", content: "New Content" },
+//   comments: [],
+// };
 
-const appSlice = createSlice({
-  name: "app",
-  initialState,
-  reducers: {
-    // Artists
-    setArtists: (state, action) => {
-      state.artists = action.payload;
-    },
+// const appSlice = createSlice({
+//   name: "app",
+//   initialState,
+//   reducers: {
+//     // Artists
+//     setArtists: (state, action) => {
+//       state.artists = action.payload;
+//     },
 
-    addArtist: (state, action) => {
-      state.artists = [action.payload, ...state.artists];
-    },
+//     addArtist: (state, action) => {
+//       state.artists = [action.payload, ...state.artists];
+//     },
 
-    deleteArtist: (state, action) => {
-      state.artists = state.artists.filter(
-        (artist) => artist._id !== action.payload
-      );
-    },
+//     deleteArtist: (state, action) => {
+//       state.artists = state.artists.filter(
+//         (artist) => artist._id !== action.payload
+//       );
+//     },
 
-    updateArtist: (state, action) => {
-      state.artists = state.artists.map((artist) => {
-        if (artist._id === action.payload._id) {
-          return action.payload;
-        } else {
-          return artist;
-        }
-      });
-    },
+//     updateArtist: (state, action) => {
+//       state.artists = state.artists.map((artist) => {
+//         if (artist._id === action.payload._id) {
+//           return action.payload;
+//         } else {
+//           return artist;
+//         }
+//       });
+//     },
 
-    setArtist: (state, action) => {
-      state.artist = action.payload;
-    },
+//     setArtist: (state, action) => {
+//       state.artist = action.payload;
+//     },
 
-    // Posts
-    setPosts: (state, action) => {
-      state.posts = action.payload;
-    },
+//     // Posts
+//     setPosts: (state, action) => {
+//       state.posts = action.payload;
+//     },
 
-    addPost: (state, action) => {
-      state.posts = [action.payload, ...state.posts];
-    },
+//     addPost: (state, action) => {
+//       state.posts = [action.payload, ...state.posts];
+//     },
 
-    deletePost: (state, action) => {
-      state.posts = state.posts.filter((post) => post._id !== action.payload);
-    },
+//     deletePost: (state, action) => {
+//       state.posts = state.posts.filter((post) => post._id !== action.payload);
+//     },
 
-    updatePost: (state, action) => {
-      state.posts = state.posts.map((post) => {
-        if (post._id === action.payload._id) {
-          return action.payload;
-        } else {
-          return post;
-        }
-      });
-    },
+//     updatePost: (state, action) => {
+//       state.posts = state.posts.map((post) => {
+//         if (post._id === action.payload._id) {
+//           return action.payload;
+//         } else {
+//           return post;
+//         }
+//       });
+//     },
 
-    setPost: (state, action) => {
-      state.post = action.payload;
-    },
+//     setPost: (state, action) => {
+//       state.post = action.payload;
+//     },
 
-    // Comments
-    setComments: (state, action) => {
-      state.comments = action.payload;
-    },
+//     // Comments
+//     setComments: (state, action) => {
+//       state.comments = action.payload;
+//     },
 
-    addComment: (state, action) => {
-      state.comments = [action.payload, ...state.comments];
-    },
+//     addComment: (state, action) => {
+//       state.comments = [action.payload, ...state.comments];
+//     },
 
-    deleteComment: (state, action) => {
-      state.comments = state.comments.filter(
-        (comment) => comment._id !== action.payload
-      );
-    },
+//     deleteComment: (state, action) => {
+//       state.comments = state.comments.filter(
+//         (comment) => comment._id !== action.payload
+//       );
+//     },
 
-    updateComment: (state, action) => {
-      state.comments = state.comments.map((comment) => {
-        if (comment._id === action.payload._id) {
-          return action.payload;
-        } else {
-          return comment;
-        }
-      });
-    },
-  },
-});
+//     updateComment: (state, action) => {
+//       state.comments = state.comments.map((comment) => {
+//         if (comment._id === action.payload._id) {
+//           return action.payload;
+//         } else {
+//           return comment;
+//         }
+//       });
+//     },
+//   },
+// });
 
-export const {
-  // Artists
-  addArtist,
-  deleteArtist,
-  updateArtist,
-  setArtist,
-  setArtists,
+// export const {
+//   // Artists
+//   addArtist,
+//   deleteArtist,
+//   updateArtist,
+//   setArtist,
+//   setArtists,
 
-  // Posts
-  addPost,
-  deletePost,
-  updatePost,
-  setPost,
-  setPosts,
+//   // Posts
+//   addPost,
+//   deletePost,
+//   updatePost,
+//   setPost,
+//   setPosts,
 
-  // Comments
-  addComment,
-  deleteComment,
-  updateComment,
-  setComments,
-} = appSlice.actions;
+//   // Comments
+//   addComment,
+//   deleteComment,
+//   updateComment,
+//   setComments,
+// } = appSlice.actions;
 
-export default appSlice.reducer;
+// export default appSlice.reducer;
