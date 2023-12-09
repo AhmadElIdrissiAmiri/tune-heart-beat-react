@@ -105,11 +105,11 @@ function Account() {
     <div className="account-container">
       {accountId && account && account._id && currentUser && (
         <div>
-          {alreadyFollowing() ? (<button onClick={UnfollowUser} className="btn btn-danger float-end">Unfollow</button>)
-            : (
-              <button onClick={followUser} className="btn btn-warning float-end">
+          {alreadyFollowing() ? (<button onClick={followUser} className="btn btn-warning float-end">
                 Follow
-              </button>
+              </button>)
+            : (<button onClick={UnfollowUser} className="btn btn-danger float-end">Unfollow</button>
+              
             )}
 
         </div>
@@ -164,12 +164,13 @@ function Account() {
 
 
 
-          {account.role === "Admin" ? (
+          {currentUser && account.role === "ADMIN" ? (
             <Link to="/TuneHeartBeat/users/table" className="users-link">
               Users
             </Link>
           ) : (
-            <p>You do not have permission to access the table.</p>
+            <p>The above user is not an admin<br/>
+            In order to update the user details, You must go to your Admin account page by clicking on account and select users and update the information of the above user</p>
           )}
           <h3>Followers</h3>
           <div style={{ overflowY: "auto", overflowX: "auto", width: "750px", height: "200px" }}>

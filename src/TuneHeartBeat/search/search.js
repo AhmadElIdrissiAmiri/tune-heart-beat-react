@@ -95,7 +95,10 @@ function Search() {
         "https://api.spotify.com/v1/search?q=" + searchTerm + "&type=artist",
         searchParameters
       );
+     
       var artistIDData = await artistIDResponse.json();
+     
+      
       var artistID = artistIDData.artists.items[0].id;
 
       // Search for the albums of the artist
