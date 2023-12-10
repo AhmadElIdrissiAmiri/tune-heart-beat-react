@@ -15,7 +15,7 @@ function Signin() {
     try {
       // Perform the asynchronous sign-in operation
       const signinResult = await client.signin(credentials);
-
+      localStorage.setItem('currentUser', JSON.stringify(signinResult));
       // Assuming signinResult contains user information after signing in
       // Update the Redux state with the user information
       dispatch(setCurrentUser(signinResult));
