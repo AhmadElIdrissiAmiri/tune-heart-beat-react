@@ -1,10 +1,17 @@
-import * as client from "../users/client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
+import {
+  BsFillHeartFill,
+  BsFillPersonFill,
+  BsFillEnvelopeFill,
+  BsCalendarFill,
+} from "react-icons/bs";
+import { RiAccountPinBoxFill } from "react-icons/ri";
 import { Link, useParams } from "react-router-dom";
 import * as followsClient from "../follows/client";
-import "./account.css";
+import * as client from "../users/client";
 import { useSelector } from "react-redux";
-
+import "./account.css";
 
 function Account() {
   const [account, setAccount] = useState(null);
@@ -15,79 +22,86 @@ function Account() {
 
   const fetchAccount = async () => {
     try {
-      const account = accountId ? await client.findUserById(accountId) : await client.account();
-      setAccount(account);
+      const userAccount = accountId
+        ? await client.findUserById(accountId)
+        : await client.account();
+      setAccount(userAccount);
     } catch (error) {
       console.error("Error fetching user account:", error);
     }
   };
 
   const followUser = async () => {
-    const status = await followsClient.userFollowsUser(accountId);
+    try {
+      await followsClient.userFollowsUser(accountId);
+      await fetchFollowers();
+    } catch (error) {
+      console.error("Error following user:", error);
+    }
   };
 
   const save = async () => {
     try {
-      // Ensure that the current user is editing their own account
       if (currentUser && currentUser._id === account._id) {
         await client.updateUser(account);
-        // You can add additional logic or feedback here if needed
         console.log("Account information updated successfully!");
       } else {
-        // Handle the case where the user is not allowed to edit this account
         console.error("You do not have permission to edit this account.");
       }
     } catch (error) {
       console.error("Error updating user account:", error);
     }
   };
-  const UnfollowUser = async () => {
-    const status = await followsClient.userUnFollowsUser(accountId);
 
+  const unfollowUser = async () => {
+    try {
+      await followsClient.userUnFollowsUser(accountId);
+      await fetchFollowers();
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+    }
   };
+
   const fetchFollowers = async () => {
     try {
-      let followers;
-
+      let userFollowers;
       if (account && account._id) {
-        followers = await followsClient.findFollowersOfUser(account._id);
+        userFollowers = await followsClient.findFollowersOfUser(account._id);
       } else {
-        // Handle the case when account._id is not available
         console.error("Cannot fetch followers: account._id is null.");
         return;
       }
-
-      setFollowers(followers);
+      setFollowers(userFollowers);
     } catch (error) {
       console.error("Error fetching followers:", error);
     }
   };
 
-
   const fetchFollowing = async () => {
     try {
-      let following;
-
+      let userFollowing;
       if (accountId) {
-        following = await followsClient.findFollowedUsersByUser(accountId);
+        userFollowing = await followsClient.findFollowedUsersByUser(accountId);
       } else if (account && account._id) {
-        following = await followsClient.findFollowedUsersByUser(account._id);
+        userFollowing = await followsClient.findFollowedUsersByUser(
+          account._id
+        );
       } else {
-        // Handle the case when account is still null or account._id is not available
-        console.error("Cannot fetch following: account or account._id is null.");
+        console.error(
+          "Cannot fetch following: account or account._id is null."
+        );
         return;
       }
-
-      setFollowing(following);
+      setFollowing(userFollowing);
     } catch (error) {
       console.error("Error fetching following:", error);
     }
   };
 
   const alreadyFollowing = () => {
-    return followers.some((follows) => {
-      return follows.follower._id === account._id;
-    })
+    return followers.some((follow) => {
+      return follow.follower._id === currentUser._id;
+    });
   };
 
   useEffect(() => {
@@ -96,140 +110,158 @@ function Account() {
       await fetchFollowers();
       await fetchFollowing();
     };
-
     fetchData();
-
   }, [accountId, account?._id]);
 
   return (
     <div className="account-container">
       {accountId && account && account._id && currentUser && (
         <div>
-          {alreadyFollowing() ? (<button onClick={followUser} className="btn btn-warning float-end">
-                Follow
-              </button>)
-            : (<button onClick={UnfollowUser} className="btn btn-danger float-end">Unfollow</button>
-              
-            )}
-
+          {alreadyFollowing() ? (
+            <Button
+              onClick={unfollowUser}
+              variant="danger"
+              className="float-end"
+            >
+              Unfollow <BsFillHeartFill />
+            </Button>
+          ) : (
+            <Button onClick={followUser} variant="warning" className="float-end">
+              Follow <BsFillHeartFill />
+            </Button>
+          )}
         </div>
       )}
 
       {account && (
         <div style={{ overflowY: "auto", overflowX: "auto", width: "750px", height: "580px" }}>
-          <h1>Account </h1>
+          <h1>
+            <RiAccountPinBoxFill /> Account
+          </h1>
           <div className="input-group">
-            <label>Username</label>
+            <label>
+              <BsFillPersonFill /> Username
+            </label>
             <input
               value={account.username}
-              onChange={(e) => setAccount({ ...account, username: e.target.value })}
+              onChange={(e) =>
+                setAccount({ ...account, username: e.target.value })
+              }
             />
           </div>
           <div className="input-group">
-            <label>First Name</label>
+            <label>
+              <BsFillPersonFill /> First Name
+            </label>
             <input
               value={account.firstName}
-              onChange={(e) => setAccount({ ...account, firstName: e.target.value })}
+              onChange={(e) =>
+                setAccount({ ...account, firstName: e.target.value })
+              }
             />
           </div>
           <div className="input-group">
-            <label>Last Name</label>
+            <label>
+              <BsFillPersonFill /> Last Name
+            </label>
             <input
               value={account.lastName}
-              onChange={(e) => setAccount({ ...account, lastName: e.target.value })}
+              onChange={(e) =>
+                setAccount({ ...account, lastName: e.target.value })
+              }
             />
           </div>
           <div className="input-group">
-            <label>Date of Birth</label>
+            <label>
+              <BsCalendarFill /> Date of Birth
+            </label>
             <input
-
               value={account.dob}
-
-              onChange={(e) => setAccount({ ...account, dob: e.target.value })}
+              onChange={(e) =>
+                setAccount({ ...account, dob: e.target.value })
+              }
             />
           </div>
           <div className="input-group">
-            <label>Email</label>
+            <label>
+              <BsFillEnvelopeFill /> Email
+            </label>
             <input
               value={account.email}
-              onChange={(e) => setAccount({ ...account, email: e.target.value })}
+              onChange={(e) =>
+                setAccount({ ...account, email: e.target.value })
+              }
             />
           </div>
 
           {currentUser && account._id === currentUser._id && (
-            <button className="save-button" onClick={save}>
+            <Button onClick={save} variant="primary" className="save-button">
               Save
-            </button>
+            </Button>
           )}
-
-
 
           {currentUser && account.role === "ADMIN" ? (
             <Link to="/TuneHeartBeat/users/table" className="users-link">
               Users
             </Link>
           ) : (
-            <p>The above user is not an admin<br/>
-            In order to update the user details, You must go to your Admin account page by clicking on account and select users and update the information of the above user</p>
+            <p>
+              The above user is not an admin<br />
+              In order to update the user details, You must go to your Admin account page by clicking on account and select users and update the information of the above user
+            </p>
           )}
-          <h3>Followers</h3>
-          <div style={{ overflowY: "auto", overflowX: "auto", width: "750px", height: "200px" }}>
 
+          <h3>
+            <BsFillHeartFill /> Followers
+          </h3>
+          <div style={{ overflowY: "auto", overflowX: "auto", width: "750px", height: "200px" }}>
             <table className="table table-striped">
               <thead>
                 <tr>
-
                   <th>First Name</th>
                   <th>Last Name</th>
-
                 </tr>
               </thead>
               <tbody>
-                {followers.map((follows, index) => (
+                {followers.map((follow, index) => (
                   <tr key={index}>
                     <td>
-                      <Link to={`/TuneHeartBeat/Account/${follows.follower._id}`}>
-
-                        {follows.follower.firstName}
-
+                      <Link to={`/TuneHeartBeat/Account/${follow.follower._id}`}>
+                        {follow.follower.firstName}
                       </Link>
                     </td>
-                    <td>{follows.follower.lastName}</td>
+                    <td>{follow.follower.lastName}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          <h3>Following</h3>
+          <h3>
+            <BsFillHeartFill /> Following
+          </h3>
           <div style={{ overflowY: "auto", overflowX: "auto", width: "750px", height: "200px" }}>
-
             <table className="table table-striped">
               <thead>
                 <tr>
-
                   <th>First Name</th>
                   <th>Last Name</th>
-
                 </tr>
               </thead>
               <tbody>
-                {following.map((follows, index) => (
+                {following.map((follow, index) => (
                   <tr key={index}>
                     <td>
-                      <Link to={`/TuneHeartBeat/Account/${follows.followed._id}`}>
-
-                        {follows.followed.firstName}
-
+                      <Link to={`/TuneHeartBeat/Account/${follow.followed._id}`}>
+                        {follow.followed.firstName}
                       </Link>
                     </td>
-                    <td>{follows.followed.lastName}</td>
+                    <td>{follow.followed.lastName}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
         </div>
       )}
     </div>

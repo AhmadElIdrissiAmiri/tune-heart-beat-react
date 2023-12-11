@@ -1,11 +1,10 @@
-// Import necessary dependencies
 import React, { useState, useEffect } from "react";
-import { Button, Form, Card, Container } from "react-bootstrap";
-import { FaComment, FaThumbsUp } from "react-icons/fa"; // Import the thumbs-up icon
+import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
+import { FaComment, FaThumbsUp } from "react-icons/fa";
 import * as postsClient from "../posts/client";
 import * as commentsClient from "../comments/client";
-import * as postLikesClient from "../likes/client"; // Import the post likes client
-import * as commentLikesClient from "../likes/client"; // Import the comment likes client
+import * as postLikesClient from "../likes/client";
+import * as commentLikesClient from "../likes/client";
 import { useSelector } from "react-redux";
 
 function Home() {
@@ -26,7 +25,12 @@ function Home() {
           setPosts(fetchedPosts);
         } else {
           // If the user is signed out, fetch only the first 7 posts from different post IDs
-          const randomPostIds = ["65708dcb1394ba3eb3749ba1", "65708a64e93abbe2194402db", "6570955202fef48dc847a1a4"]; 
+          const randomPostIds = [
+            "657672b7619fc2e5e989d95f",
+            "657672d0619fc2e5e989d961",
+            "6576798f6a4d4d301f8e5b07",
+            "657679706a4d4d301f8e5b03",
+          ];
           const postsFromDifferentIds = await Promise.all(
             randomPostIds.map(async (postId) => await postsClient.fetchPostById(postId))
           );
@@ -165,14 +169,14 @@ function Home() {
   };
 
   return (
-    <Container className="mt-5" style={{ overflowY: "auto", height: "600px", backgroundColor: "#cfe2f3" }}>
+    <div style={{ overflowY: "auto", overflowX: "auto",height: "580px" }}>
+    <Container className="mt-5">
       <h1 className="text-center mb-4">HOME</h1>
 
       {/* Form to add a new post */}
       {currentUser && currentUser._id && (
-        <Card className="mt-4 p-4" style={{ backgroundColor: "#ffffff" }}>
+        <Card className="mt-4 p-4">
           <Form>
-            
             <Form.Group controlId="newPost">
               <Form.Control
                 as="textarea"
@@ -180,7 +184,6 @@ function Home() {
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
                 placeholder="Write a new post..."
-                style={{ backgroundColor: "#e9ecef" }}
               />
             </Form.Group>
             <Button variant="primary" onClick={addPost}>
@@ -192,7 +195,7 @@ function Home() {
 
       {/* Display existing posts */}
       {posts.map((post, index) => (
-        <Card key={index} className="mt-4 p-4" style={{ backgroundColor: "#ffffff" }}>
+        <Card key={index} className="mt-4 p-4">
           {editingPostId === post._id ? (
             // Form to edit a post
             <Form>
@@ -202,7 +205,6 @@ function Home() {
                   rows={3}
                   value={editingPostContent}
                   onChange={(e) => setEditingPostContent(e.target.value)} // Use editingPostContent
-                  style={{ backgroundColor: "#e9ecef" }}
                 />
               </Form.Group>
               <Button variant="warning" onClick={() => updatePost(post._id)} className="mr-2">
@@ -218,11 +220,12 @@ function Home() {
               <Card.Text>{post.content}</Card.Text>
               <Container className="mt-3">
                 {/* Display the first name of the poster */}
-                <p>Posted by: {currentUser && currentUser.firstName}</p>
+                <p>Posted by: {currentUser ? currentUser.firstName : post.user.firstName}</p>
+
 
                 {/* Button to like the post */}
                 {currentUser && currentUser._id && (
-                  <Button variant="primary" onClick={() => likePost(post._id)} className="mr-2 float-end">
+                  <Button variant="primary" onClick={() => likePost(post._id)} className="mr-2">
                     <FaThumbsUp /> Like post
                   </Button>
                 )}
@@ -236,7 +239,6 @@ function Home() {
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Write a comment..."
-                        style={{ backgroundColor: "#e9ecef" }}
                       />
                     </Form.Group>
                   )}
@@ -256,14 +258,14 @@ function Home() {
                 {/* Display existing comments */}
                 {comments[post._id] &&
                   comments[post._id].map((comment, commentIndex) => (
-                    <div key={commentIndex} className="mt-2" style={{ backgroundColor: "#e9ecef", padding: "8px" }}>
+                    <div key={commentIndex} className="mt-2">
                       <span>{comment.content}</span>
                       {/* Button to like the comment */}
                       {currentUser && currentUser._id && (
                         <Button
                           variant="primary"
                           size="sm"
-                          className="mr-2 float-end"
+                          className="mr-2"
                           onClick={() => likeComment(comment._id)}
                         >
                           <FaThumbsUp /> Like comment
@@ -274,7 +276,7 @@ function Home() {
                         <Button
                           variant="danger"
                           size="sm"
-                          className="ml-2 float-end"
+                          className="ml-2"
                           onClick={() => deleteComment(post._id, comment._id)}
                         >
                           Delete Comment
@@ -288,6 +290,7 @@ function Home() {
         </Card>
       ))}
     </Container>
+    </div>
   );
 }
 

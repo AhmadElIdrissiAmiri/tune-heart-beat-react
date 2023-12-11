@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./search.css";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { FaHeart, FaUser } from "react-icons/fa"; 
 import * as likesClient from "../likes/client";
 import * as userClient from "../users/client";
+import {BsFillEnvelopeFill } from 'react-icons/bs'
 
 const API_KEY = "da577f37b93545e1b6773ae43ea870d2";
 const API_SECRETKEY = "e8ca7d12a9c447108a6b98ca6bea8784";
@@ -28,21 +30,19 @@ function Search() {
   const createUserLikesAlbum = async (albumId) => {
     try {
       const _likes = await likesClient.createUserLikesAlbum(currentUser._id, albumId);
-      
-  
+
       // Update likes for the specific album
       setAlbumLikes((prevAlbumLikes) => ({
         ...prevAlbumLikes,
         [albumId]: [_likes, ...(prevAlbumLikes[albumId] || [])],
       }));
-  
+
       // Update the general likes state
       setLikes((prevLikes) => [_likes, ...prevLikes]);
     } catch (error) {
       console.error("Error creating user likes album:", error);
     }
   };
-  
 
   const fetchLikes = async (albumId) => {
     try {
@@ -78,7 +78,7 @@ function Search() {
         searchAPI();
       });
     fetchUser();
-  }, []); 
+  }, []);
 
   async function searchAPI() {
     try {
@@ -95,10 +95,8 @@ function Search() {
         "https://api.spotify.com/v1/search?q=" + searchTerm + "&type=artist",
         searchParameters
       );
-     
       var artistIDData = await artistIDResponse.json();
-     
-      
+
       var artistID = artistIDData.artists.items[0].id;
 
       // Search for the albums of the artist
@@ -128,7 +126,7 @@ function Search() {
       <div className="inputButtonStyle">
         <input
           type="text"
-          className="form-control "
+          className="form-control"
           placeholder="Search..."
           value={searchTerm}
           onChange={(event) => {
@@ -141,13 +139,10 @@ function Search() {
       </div>
       <h1 style={{ color: "white", textAlign: "left" }}>RESULTS</h1>
       <div style={{ height: "400px", overflowY: "auto" }}>
-        <div className="mx-2 row row-cols-4">
+        <div className="mx-2 row row-cols-1 row-cols-md-4 g-4">
           {albums.map((album, i) => (
-            <Card key={i}>
-              <Link
-                to={`/TuneHeartBeat/Details/${album.id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
+            <Card key={i} className="col">
+              <Link to={`/TuneHeartBeat/Details/${album.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                 <Card.Img src={album.images[0].url} />
               </Link>
               <Card.Body>
@@ -158,31 +153,31 @@ function Search() {
                       onClick={() => createUserLikesAlbum(album.id)}
                       className="btn btn-warning float-end"
                     >
-                      Like
+                      <FaHeart /> Like
                     </button>
                   )}
                 </Card.Title>
-                <div style={{ overflowY: "auto", overflowX: "auto", width: "250px", height: "200px" }}>
+                <div style={{ overflowY: "auto", overflowX: "auto", width: "250px", maxHeight: "200px" }}>
                   <h2>Likes</h2>
 
                   <table className="table table-striped">
                     <thead>
                       <tr>
-                        <th>Username</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
+                        <th><FaUser /> Username</th>
+                        <th><FaUser /> First Name</th>
+                        <th><FaUser /> Last Name</th>
+                        <th><BsFillEnvelopeFill /> Email</th>
+                        <th><FaUser /> Role</th>
                       </tr>
                     </thead>
                     <tbody>
                       {albumLikes[album.id]?.map((like, index) => (
                         <tr key={index}>
-                          <Link to={`/TuneHeartBeat/Account/${like.user._id}`}>
                           <td>
-                            {like.user.username}
-                            </td>
-                          </Link>
+                            <Link to={`/TuneHeartBeat/Account/${like.user._id}`}>
+                              {like.user.username}
+                            </Link>
+                          </td>
                           <td>{like.user.firstName}</td>
                           <td>{like.user.lastName}</td>
                           <td>{like.user.email}</td>

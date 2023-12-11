@@ -11,7 +11,7 @@ function Signup() {
     username: "",
     email: "",
     password: "",
-    role: "user",
+    role: "USER",
     dateOfBirth: ""
   });
   const navigate = useNavigate();

@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import * as userClient from "../users/client";
 import * as likesClient from "../likes/client";
+import { FaHeart, FaUser } from "react-icons/fa"; 
+import {BsFillEnvelopeFill } from 'react-icons/bs'
 
 const API_KEY = "da577f37b93545e1b6773ae43ea870d2";
 const API_SECRETKEY = "e8ca7d12a9c447108a6b98ca6bea8784";
@@ -148,7 +150,7 @@ function Details() {
                     onClick={() => createUserLikesSong(song.id)}
                     className="btn btn-warning float-end"
                   >
-                    Like
+                     <FaHeart />Like
                   </button>
                 )}
               </Card.Title>
@@ -163,11 +165,11 @@ function Details() {
                 <table className="table table-striped">
                   <thead>
                     <tr>
-                      <th>Username</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Email</th>
-                      <th>Role</th>
+                      <th><FaUser />Username</th>
+                      <th><FaUser />First Name</th>
+                      <th><FaUser />Last Name</th>
+                      <th><BsFillEnvelopeFill/>Email</th>
+                      <th><FaUser />Role</th>
                     </tr>
                   </thead>
                   <tbody>

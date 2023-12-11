@@ -51,3 +51,11 @@
 .signin-button:hover {
   background-color: green;
 }
+.body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-image: url('./img1.jpg'); /* Replace with the path to your image */
+  background-size: cover;
+  background-position: center;
+}
