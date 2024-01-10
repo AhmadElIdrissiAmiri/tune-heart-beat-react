@@ -1,3 +1,12 @@
+# About:
+TuneHeartBeats represents the collaborative efforts of our WebDev team in crafting a state-of-the-art web
+project tailored for music enthusiasts. Fueled by the Spotify API, the project boasts a cutting-edge design,
+utilizing Node.js for the backend, React.js for the frontend, and Bootstrap for CSS styling. Seamless
+integration with MongoDB allows us to store user information, likes, followers, and user/artist
+relationships. This platform caters to four distinct user types: Guests, Admins, Artists, and Logged-in
+Users, providing an interactive space to explore, like albums, listen to song previews, and connect with
+artists.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
